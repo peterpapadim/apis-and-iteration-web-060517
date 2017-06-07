@@ -9,6 +9,11 @@ def get_character_movies_from_api(character)
   
   # iterate over the character hash to find the collection of `films` for the given
   #   `character`
+  
+  character_hash["results"].each_with_object({}) do |char_hash, skel_hash|
+    skel_hash[character] = char_hash["films"] if char_hash["name"].downcase == character
+  end
+
   # collect those film API urls, make a web request to each URL to get the info
   #  for that film
   # return value of this method should be collection of info about each film.
@@ -20,9 +25,11 @@ end
 
 def parse_character_movies(films_hash)
   # some iteration magic and puts out the movies in a nice list
+  films_hash.values.flatten.each {|film| puts film}
 end
 
 def show_character_movies(character)
+
   films_hash = get_character_movies_from_api(character)
   parse_character_movies(films_hash)
 end
