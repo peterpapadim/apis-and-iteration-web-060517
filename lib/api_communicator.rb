@@ -25,7 +25,18 @@ end
 
 def parse_character_movies(films_hash)
   # some iteration magic and puts out the movies in a nice list
-  films_hash.values.flatten.each {|film| puts film}
+  films_hash.values.flatten.each do |film|
+    film_data = RestClient.get(film)
+    films_hash = JSON.parse(film_data)
+    puts ""
+    puts "Movie Title:"
+    puts "#{films_hash["title"]}" 
+    puts "" 
+    puts "Description: "
+    puts ""
+    puts "#{films_hash["opening_crawl"]}"
+    puts "---------------"    
+  end
 end
 
 def show_character_movies(character)
@@ -33,6 +44,7 @@ def show_character_movies(character)
   films_hash = get_character_movies_from_api(character)
   parse_character_movies(films_hash)
 end
+
 
 ## BONUS
 
